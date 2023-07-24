@@ -60,22 +60,47 @@ const Contact = (props) => {
           />
         </div>
         <div className='my-4'>
-          <button className='btn btn-info btn-sm' type='button'>
+          <button
+            className='btn btn-info btn-sm'
+            type='button'
+            onClick={() => {
+              append({ label: '', number: 0 });
+            }}
+          >
             Add Phone Number
           </button>
         </div>
         {fields.map((p, i) => {
           return (
-            <div className='mb-3' key={p.id}>
-              <input type='text' className='form-control' />
-              <button className='btn btn-danger btn-sm ms-4' type='button'>
-                Remove Phone Number
-              </button>
+            <div className='row mb-3' key={p.id}>
+              <div className='col-5'>
+                <input
+                  type='text'
+                  className='form-control me-3'
+                  {...register(`phoneNumbers.${i}.label`)}
+                />
+              </div>
+              <div className='col-5'>
+                <input
+                  type='number'
+                  className='form-control'
+                  {...register(`phoneNumbers.${i}.number`)}
+                />
+              </div>
+              <div className='col-2'>
+                <button
+                  className='btn btn-danger btn-sm ms-4'
+                  type='button'
+                  onClick={() => remove(i)}
+                >
+                  Remove
+                </button>
+              </div>
             </div>
           );
         })}
 
-        <button className='btn btn-primary' type='submit'>
+        <button className='btn btn-primary mt-3' type='submit'>
           Submit
         </button>
       </form>
