@@ -1,10 +1,11 @@
+import { DevTool } from '@hookform/devtools';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 const Login = (props) => {
   const { register, control, handleSubmit, reset, formState } = useForm();
 
-  const { isSubmitSuccessful, isSubmitting, isSubmitted } = formState;
+  const { isSubmitSuccessful, isSubmitting, isSubmitted, errors } = formState;
 
   const submit = (data) => {
     console.log('form submitted', data);
@@ -28,8 +29,9 @@ const Login = (props) => {
             type='email'
             className='form-control'
             id='username'
-            {...register('username')}
+            {...register('username', { required: 'Username is required' })}
           />
+          <p className='text-danger form-text'>{errors.username?.message}</p>
         </div>
         <div className='mb-3'>
           <label htmlFor='password' className='form-label'>
@@ -39,14 +41,25 @@ const Login = (props) => {
             type='password'
             className='form-control'
             id='password'
-            {...register('password')}
+            {...register('password', {
+              pattern: {
+                value: /^[0-9]{4}$/,
+                message: 'Password should be 4 digits',
+              },
+              required: {
+                value: true,
+                message: 'We need password',
+              },
+            })}
           />
+          <p className='text-danger form-text'>{errors.password?.message}</p>
         </div>
 
         <button className='btn btn-primary' type='submit'>
           Submit
         </button>
       </form>
+      <DevTool control={control} />
     </>
   );
 };
