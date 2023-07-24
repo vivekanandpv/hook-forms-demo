@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 const Login = (props) => {
-  const { register, control, handleSubmit } = useForm();
+  const { register, control, handleSubmit, reset, formState } = useForm();
+
+  const { isSubmitSuccessful, isSubmitting, isSubmitted } = formState;
 
   const submit = (data) => {
     console.log('form submitted', data);
   };
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful]);
 
   return (
     <>
