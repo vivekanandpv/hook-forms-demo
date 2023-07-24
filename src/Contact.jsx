@@ -64,7 +64,7 @@ const Contact = (props) => {
             className='btn btn-info btn-sm'
             type='button'
             onClick={() => {
-              append({ label: '', number: 0 });
+              append({ label: '', number: null });
             }}
           >
             Add Phone Number
