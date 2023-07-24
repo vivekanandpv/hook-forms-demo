@@ -42,13 +42,11 @@ const Login = (props) => {
             className='form-control'
             id='password'
             {...register('password', {
-              pattern: {
-                value: /^[0-9]{4}$/,
-                message: 'Password should be 4 digits',
-              },
-              required: {
-                value: true,
-                message: 'We need password',
+              validate: {
+                numbersOnly: (fv) => {
+                  const regex = /^[0-9]{4}$/;
+                  return regex.test(fv) || 'Password should be 4 digits';
+                },
               },
             })}
           />
