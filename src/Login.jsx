@@ -1,6 +1,7 @@
 import { DevTool } from '@hookform/devtools';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
 const Login = (props) => {
   const { register, control, handleSubmit, reset, formState } = useForm();
@@ -29,7 +30,20 @@ const Login = (props) => {
             type='email'
             className='form-control'
             id='username'
-            {...register('username', { required: 'Username is required' })}
+            {...register('username', {
+              required: 'Username is required',
+              validate: {
+                serverValidation: async (fv) => {
+                  const response = await axios
+                    .get('https://jsonplaceholder.typicode.com/comments/5')
+                    .then((r) => r.data);
+
+                  return (
+                    response.email === fv || 'This username is not allowed'
+                  );
+                },
+              },
+            })}
           />
           <p className='text-danger form-text'>{errors.username?.message}</p>
         </div>
