@@ -13,6 +13,9 @@ const Login = (props) => {
       return {
         username: email,
         password: 1458,
+        country: {
+          primary: 'India',
+        },
       };
     },
     mode: 'onSubmit',
@@ -88,6 +91,23 @@ const Login = (props) => {
             })}
           />
           <p className='text-danger form-text'>{errors.password?.message}</p>
+        </div>
+
+        <div className='mb-3'>
+          <label htmlFor='primary-country' className='form-label'>
+            Username
+          </label>
+          <input
+            type='email'
+            className='form-control'
+            id='primary-country'
+            {...register('country.primary', {
+              required: 'Country is required',
+            })}
+          />
+          <p className='text-danger form-text'>
+            {errors.country?.primary?.message}
+          </p>
         </div>
 
         <button className='btn btn-primary' type='submit'>
