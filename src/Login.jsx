@@ -4,12 +4,35 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
 const Login = (props) => {
-  const { register, control, handleSubmit, reset, formState } = useForm();
+  const { register, control, handleSubmit, reset, formState } = useForm({
+    defaultValues: async () => {
+      const { email } = await axios
+        .get('https://jsonplaceholder.typicode.com/comments/5')
+        .then((r) => r.data);
 
-  const { isSubmitSuccessful, isSubmitting, isSubmitted, errors } = formState;
+      return {
+        username: email,
+        password: 1458,
+      };
+    },
+    mode: 'onSubmit',
+  });
+
+  const {
+    isSubmitSuccessful,
+    isSubmitting,
+    isSubmitted,
+    errors,
+    dirtyFields,
+    touchedFields,
+  } = formState;
 
   const submit = (data) => {
     console.log('form submitted', data);
+  };
+
+  const submissionError = (errors) => {
+    console.log('submission errors', errors);
   };
 
   useEffect(() => {
@@ -21,7 +44,7 @@ const Login = (props) => {
   return (
     <>
       <h3>Login Form</h3>
-      <form noValidate onSubmit={handleSubmit(submit)}>
+      <form noValidate onSubmit={handleSubmit(submit, submissionError)}>
         <div className='mb-3'>
           <label htmlFor='username' className='form-label'>
             Username
